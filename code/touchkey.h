@@ -4,8 +4,11 @@
 
 void HDKEY_Config(void);
 
-#define HDP25KEY      1 
-#define HDP26KEY      2
+#define HDP25KEY      P25 
+#define HDP26KEY      P26
+
+#define HDP25KEY_PRES     1
+#define HDP26KEY_PRES      2
 
 struct _KEY_
 {
@@ -17,6 +20,8 @@ struct _KEY_
 
 extern struct _KEY_  hdkey;
 
+void delay_ms(uint16_t t);
+uint8_t KEY_HDScan(uint8_t mode);
 
 
 #endif 

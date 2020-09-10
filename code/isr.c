@@ -1,7 +1,7 @@
-
-
 #include "cms8s6990.h"
 #include "touchkey.h"
+#include "cnrelay.h"
+#include "lamp.h"
 
 
 
@@ -113,16 +113,12 @@ void P1EI_IRQHandler(void)  interrupt P1EI_VECTOR
  ******************************************************************************/
 void P2EI_IRQHandler(void)  interrupt P2EI_VECTOR 
 {
-   if(GPIO_GetIntFlag(GPIO2, GPIO_PIN_5))
+   if(GPIO_GetIntFlag(GPIO2, GPIO_PIN_3))
 	{
-		hdkey.P25KEY =1;
-		GPIO_ClearIntFlag(GPIO2, GPIO_PIN_5);
+	
+		GPIO_ClearIntFlag(GPIO2, GPIO_PIN_3);
 	}
-    if(GPIO_GetIntFlag(GPIO2, GPIO_PIN_6))
-	{
-		hdkey.P26KEY =1;
-		GPIO_ClearIntFlag(GPIO2, GPIO_PIN_6);
-	}
+   
 }
 /******************************************************************************
  ** \brief	 GPIO 3 interrupt service function
