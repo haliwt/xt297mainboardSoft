@@ -46,14 +46,51 @@ int main(void)
 	{
         	
 			disp =usartdat.usart_1; //usartdat.usart_1;
+			#if 0
 			d1 = disp % 10;
 			d2=  (disp / 10 ) % 10;
 			d3=  (disp / 100 ) % 10;
 			
-			LEDDisplay_TimerTim(d3,d2,d1);
-	        LEDDisplay_GreenColorRing();
+			//LEDDisplay_TimerTim(d3,d2,d1);
+	      //  LEDDisplay_GreenColorRing();
 			delay_20us(20000);
+			#endif
 			
+			if((disp >> 7) == 1){
+				d3=1;
+			   LEDDisplay_TimerTim(d3,d2,d1);
+                delay_20us(20000);
+
+			}
+			else{
+				d3=0;
+
+				LEDDisplay_TimerTim(d3,d2,d1);
+			}
+            
+			if((disp >> 4) == 0x01){
+				 d2=1;
+				 LEDDisplay_TimerTim(d3,d2,d1);
+                delay_20us(20000);
+			}
+			else{
+				 d2=0;
+				 LEDDisplay_TimerTim(d3,d2,d1);
+
+			}
+            
+            
+			if((disp & 0x01) == 0x01){
+				 d1=1;
+				 LEDDisplay_TimerTim(d3,d2,d1);
+                delay_20us(20000);
+			}
+			else{
+				 d1=0;
+				 LEDDisplay_TimerTim(d3,d2,d1);
+                delay_20us(20000);
+
+			}
 
 		
 
