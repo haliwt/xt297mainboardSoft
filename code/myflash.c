@@ -1,5 +1,5 @@
 #include "myflash.h"
-
+#if 0
 /*****************************************************************
 	*
 	*Function Name :void Flash_ToWriteData(void)
@@ -13,7 +13,7 @@ void Flash_ToWriteData(void)
 {
    uint8_t temparr[3];
    uint16_t addr;
-
+#if 0
  
 	   temparr[0]=Flash_ToReadMinuteData();
 	   if(NetRecMinute > temparr[0]) temparr[0]=NetRecMinute;
@@ -60,7 +60,7 @@ void Flash_ToWriteData(void)
 }
    FLASH_Lock();
 	  
-	 
+	#endif  
 }
 /*****************************************************************
 	*
@@ -714,6 +714,6 @@ void TestFlash_ToWriteAndReadData(void)
    	}
 
 
-
+#endif
 
 #endif 

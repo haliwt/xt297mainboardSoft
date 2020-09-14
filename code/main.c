@@ -15,7 +15,7 @@
 
 uint32_t Systemclock = 24000000;
 
-Telec Telecom;
+
 
 uint8_t windLevelHighest ;
 uint8_t flashflg=0;
@@ -24,7 +24,7 @@ struct usarts  usartdat;
 #define MOTOR_RUN    0
 #define AC_MOTOR_RUN    1
 #define TOUCHKEY   1
-
+uint8_t ReceOverflg;
 
 /*******************************************************
 	*
@@ -38,7 +38,6 @@ int main(void)
    
     uint8_t d1,d2,d3,disp;
     TMR1_Config();
-	TMR0_Config();
     LED_GPIO_Init();
     UART0_Config();
 
@@ -46,20 +45,13 @@ int main(void)
 	{
         	
 			disp =usartdat.usart_1; //usartdat.usart_1;
-			#if 0
-			d1 = disp % 10;
-			d2=  (disp / 10 ) % 10;
-			d3=  (disp / 100 ) % 10;
 			
-			//LEDDisplay_TimerTim(d3,d2,d1);
-	      //  LEDDisplay_GreenColorRing();
-			delay_20us(20000);
-			#endif
-			
+		
+			#if 1
 			if((disp >> 7) == 1){
 				d3=1;
 			   LEDDisplay_TimerTim(d3,d2,d1);
-                delay_20us(20000);
+               
 
 			}
 			else{
@@ -68,35 +60,39 @@ int main(void)
 				LEDDisplay_TimerTim(d3,d2,d1);
 			}
             
-			if((disp >> 4) == 0x01){
+			if((disp >> 4) == 1){
 				 d2=1;
 				 LEDDisplay_TimerTim(d3,d2,d1);
-                delay_20us(20000);
+               
 			}
 			else{
 				 d2=0;
 				 LEDDisplay_TimerTim(d3,d2,d1);
-
+                     
 			}
             
             
-			if((disp & 0x01) == 0x01){
+			if((disp & 0x01) == 1){
 				 d1=1;
 				 LEDDisplay_TimerTim(d3,d2,d1);
-                delay_20us(20000);
+                
 			}
 			else{
 				 d1=0;
 				 LEDDisplay_TimerTim(d3,d2,d1);
-                delay_20us(20000);
+               
 
-			}
+			}  
+
+		
+		
 
 		
 
 	 	
 	}
 }
+
 
 	
 

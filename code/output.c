@@ -1,6 +1,6 @@
 #include "output.h"
 #include "timer2.h"
-
+#if 0
  void OutputData(uint8_t wds);
  uint8_t PM_1;
  uint8_t PM_2;
@@ -146,5 +146,5 @@ void PM_SendData(void)
 
 
    }
-
+#endif 
 

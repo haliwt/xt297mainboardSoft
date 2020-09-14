@@ -14,45 +14,7 @@ key_types   key;
 
 void WindLevel_Data(void)
 {
-    if(Telecom.childLock ==1 && Telecom.lockSonudKey==0){
-
-     
-        
-              Telecom.lockSonudKey=1;
-			    BUZZER_Config();
-				delay_20us(10000)  ; 
-			    BUZ_DisableBuzzer();
-
-				BUZZER_Config();
-				delay_20us(10000)  ; 
-			    BUZ_DisableBuzzer();
-				Telecom.WindSelectLevel =0x80;
-				
-	}
-    switch (Telecom.WindSelectLevel ){
-
-		   case  wind_sleep :
-			   LEDDisplay_SleepLamp();
-			   Telecom.WindSelectLevel =wind_sleep;
-			  OutputData(0x01);
-			break;
-			
-			case wind_middle:
-			
-				OutputData(0x02);
-				Telecom.WindSelectLevel =wind_middle;
-			break;
-				
-			case wind_high:
-				OutputData(0x03);
-				Telecom.WindSelectLevel =wind_high;
-		   break ;
-
-		   case wind_auto:
-					Telecom.WindSelectLevel =wind_auto;
-			break;
-		}
-
+   
 
  }
 /******************************************************************************
@@ -66,33 +28,9 @@ void WindLevel_Data(void)
 
 void Net_Data(void)
 {
-	if(Telecom.childLock ==1 && Telecom.lockSonudKey==0){
 	
-		
-		   
-				 Telecom.lockSonudKey=1;
-				   BUZZER_Config();
-				   delay_20us(10000)  ; 
-				   BUZ_DisableBuzzer();
-	
-				   BUZZER_Config();
-				   delay_20us(10000)  ; 
-				   BUZ_DisableBuzzer();
 				 
-				   
-	}
-	if(Telecom.net_state ==1){
-
-
-                     FLASH_Init();
-                    BUZZER_Config();
-                     delay_20us(5000)  ; 
-                   BUZ_DisableBuzzer();
-	              Telecom.net_state =0;
-
-
-	}
-
+	
 
 
 
@@ -108,26 +46,7 @@ void Net_Data(void)
 void Timer_Data(void)
 {
 
-   if(Telecom.childLock ==1 && Telecom.lockSonudKey==0){
-	
-		
-		   
-				 Telecom.lockSonudKey=1;
-				   BUZZER_Config();
-				   delay_20us(10000)  ; 
-				   BUZ_DisableBuzzer();
-	
-				   BUZZER_Config();
-				   delay_20us(10000)  ; 
-				   BUZ_DisableBuzzer();
-				 
-				   
-	}
-
-     if(Telecom.TimerFlg == 1 && Telecom.childLock ==0 ) Telecom.TimerOn=1;
-   	   
-
-
+ 
 
 }
 

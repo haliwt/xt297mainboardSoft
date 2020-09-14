@@ -1,6 +1,7 @@
 #ifndef __OUTPUT_H__
 #define __OUTPUT_H__
 #include "cms8s6990.h"
+#if 0
 #include "key.h"
 #include "timer0.h"
 
@@ -29,5 +30,5 @@ enum WindSpeed{wind_stop,wind_sleep,wind_middle,wind_high,wind_auto,wind_highest
 void OutputData(uint8_t wds);
 void PM_SendData(void);
 
-
+#endif 
 #endif 
