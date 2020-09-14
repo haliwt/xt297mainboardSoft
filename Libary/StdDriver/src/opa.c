@@ -242,13 +242,13 @@ void OPA_ConfigOffsetAdj(uint8_t OPAn,uint8_t OffsetAdj, uint8_t AdjVlue)
 	{
 		OP0CON1 &= ~(OPA_OP0CON1_OP0ADJ_Msk);
 		OP0CON1 |= 0x1f & AdjVlue;
-		OP0ADJE = OffsetAdj;
+		OP0CON1 = OffsetAdj;
 	}
 	if(OPA1 == OPAn)
 	{
 		OP1CON1 &= ~(OPA_OP1CON1_OP1ADJ_Msk);
 		OP1CON1 |= 0x1f & AdjVlue;
-		OP1ADJE = OffsetAdj;
+		OP1CON1 = OffsetAdj;
 	}		
 }
 /*****************************************************************************

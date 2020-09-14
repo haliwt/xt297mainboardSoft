@@ -511,7 +511,6 @@ uint8_t  ACMP_GetOffsetAdjValue(uint8_t ACMPn, uint8_t ACMPMode, uint8_t InputPo
 		AcmpOut = ACMP_GetResult(ACMP0);
 		for(temp=0; temp<0x20;temp++)
 		{
-			ACMPCON1Temp &=~(ACMP_C0CON1_C0ADJ_Msk);
 			ACMPCON1Temp |= temp;
 			C0CON1 = ACMPCON1Temp;
 			ACMP_Dealy();
@@ -594,7 +593,6 @@ uint8_t  ACMP_GetOffsetAdjValue(uint8_t ACMPn, uint8_t ACMPMode, uint8_t InputPo
 		AcmpOut = ACMP_GetResult(ACMP1);
 		for(temp=0; temp<0x20;temp++)
 		{
-			ACMPCON1Temp &=~(ACMP_C1CON1_C1ADJ_Msk);
 			ACMPCON1Temp |= temp;
 			C1CON1 = ACMPCON1Temp;
 			ACMP_Dealy();

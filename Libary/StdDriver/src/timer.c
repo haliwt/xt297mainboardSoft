@@ -668,7 +668,7 @@ uint16_t TMR2_GetCaptureValue(uint8_t Timer2CCn)
 	{
 		case TMR2_CC0:
 			CaputerValue = RLDH;
-			CaputerValue = (CaputerValue <<8) | RLDL;
+			CaputerValue = (CaputerValue <<8) | RLDH;
 			break;
 		case TMR2_CC1:
 			CaputerValue = CCH1;
