@@ -20,8 +20,8 @@ uint8_t windTurnOn ;
 
 int main(void)
 {		
-   static uint8_t lampflg,dirflg,ACmotor=0;
-   static uint16_t count ;
+   static uint8_t lampflg,dirflg,ACmotor=0,lampOn=0;
+   static uint16_t count,timecount=0 ;
    uint8_t event =0;
 	CONT_Motor_Init();
 	HDKEY_Config();
@@ -37,7 +37,7 @@ int main(void)
           
 	if(Number < 5){	  
 	
-	if(Number / 2 == 1 && Number !=0 && Number !=1 && Number !=3 && Number !=4) {
+	if(Number ==2 && Number !=0 && Number !=1 && Number !=3 && Number !=4) {
 			  
 			Number =0;
 			   BUZZER_Config();
@@ -57,33 +57,35 @@ int main(void)
 		   }
 		 
 	      }
-	   if(Number / 1== 1 && Number !=0 && Number !=2 && Number !=3 && Number !=4){  
+	   if(Number == 1 && Number !=0 && Number !=2 && Number !=3 && Number !=4){  
 		    
-		       Number =0;
+		    Number =0;
+		
 			   BUZZER_Config();
 				delay_ms(200);
 				BUZ_DisableBuzzer();
-				lampflg = lampflg ^0x01;
-				if(lampflg ==1){
-				  LAMP = 1;
-				  delay_ms(5000);
-				}
-				else {
-					LAMP = 0;
-					 delay_ms(5000);
-				}
-				
-				 
-		}
-	if(Number / 3 ==1  && Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
+				if(lampOn ==1){
+			       lampOn ++;
+					lampflg = lampflg ^0x01;
+					if(lampflg ==1){
+					LAMP = 1;
+					
+					}
+					else {
+						LAMP = 0;
+						
+					}
+	          }
+		}	
+	//Wind KEY
+	if(Number ==3   && Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
 	 {
 	            ACmotor =ACmotor ^ 0x01;
 		        Number =0;
 		        BUZZER_Config();
 				delay_ms(200);
 				BUZ_DisableBuzzer();
-			 if(ReceOverflg==1)LAMP =1;
-			 else LAMP =0;
+			
 		     if(ACmotor ==1){
 		      //交流流风机
 				windTurnOn =0;
@@ -101,43 +103,21 @@ int main(void)
 			 }
 	  
 	  }
-	  if(Number / 4 ==1  && Number !=0 && Number !=1 && Number !=3 && Number !=2) //Timer _key
+	  if(Number ==4   && Number !=0 && Number !=1 && Number !=3 && Number !=2) //Timer _key
 	  {
-	        TimerStart =1;
+	        lampOn =1;
 		    Number =0;
-			 if(ReceOverflg==1)LAMP =1;
-			 else LAMP =0;
-		    BUZZER_Config();
+		
+		       BUZZER_Config();
 				delay_ms(200);
 				BUZ_DisableBuzzer();
-	  
-	  }
+	}
 	
-	   if(Number == 1 && Number !=2 && Number !=3 && Number !=5 && event ==0){  //LAMP
-		    
-		       event =1;
-			   Number =0;
-			   BUZZER_Config();
-				delay_ms(300);
-				BUZ_DisableBuzzer();
-				lampflg = lampflg ^0x01;
-				if(lampflg ==1){
-				    LAMP = 1;
-					delay_ms(6000);
-					ReceOverflg=1;
-				}
-				else {
-					LAMP = 0;
-					delay_ms(6000);
-					ReceOverflg=0;
-				}
-			}
+	  
 	   
-	     }
-		if(windTurnOn ==1){
+	}
+	if(windTurnOn ==1){
 			count ++ ;
-			if(ReceOverflg==1)LAMP =1;
-			else LAMP =0;
 			if(count > 10000){
 				count =0;
 			if(Number > 4){
@@ -147,8 +127,7 @@ int main(void)
 					BUZZER_Config();
 					delay_ms(200);
 					BUZ_DisableBuzzer();
-					if(ReceOverflg==1)LAMP =1;
-			        else LAMP =0;
+				
 					AC_P15=1; //Turn On ---AC POWER ON
 					AC_P14=1; //red line
 					AC_P04=0; //black line 低速 中速档位
@@ -160,8 +139,7 @@ int main(void)
 					BUZZER_Config();
 					delay_ms(200);
 					BUZ_DisableBuzzer();
-					if(ReceOverflg==1)LAMP =1;
-			        else LAMP =0;
+		
 
 					AC_P15 =1; //AC Power On
 					AC_P14=1; //红色线 红色是高速
@@ -181,8 +159,13 @@ int main(void)
 					AC_P13 =0;
 					
 				}
+				if(Number == 3)windTurnOn =0;
+				Number =0;
 			}
-			}	
+
+			}
+			else Number =0;
+			
 		}  
 	}
 
