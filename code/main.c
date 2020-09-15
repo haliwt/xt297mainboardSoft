@@ -64,30 +64,37 @@ int main(void)
 				BUZ_DisableBuzzer();
 				lampflg = lampflg ^0x01;
 				if(lampflg ==1)
-				  LAMP = 1;
+				    LAMP = 1;
 				else LAMP = 0;
 				
 				 
 		}
 	if(Number / 3 ==1  && Number !=0 && Number !=1 && Number !=2 && Number !=5)//wind_key 风机按键
 	 {
-	            ACmotor =ACmotor ^ 0x01;
-		        Number =0;
-		        BUZZER_Config();
-				delay_ms(400);
-				BUZ_DisableBuzzer();
-		     if(ACmotor ==1){
-		      //交流流风机
-		        AC_P15=1; //Turn On ---AC POWER ON
-				AC_P14=1; //red line
-			    AC_P04=0; //black line 低速
-		        AC_P13 = 1;
-			 }
-			 else {
-			    AC_P15 = 0;
+	            
+				Number =0;
+			   ACmotor =ACmotor ^ 0x01;
+		       BUZZER_Config();
+			  delay_ms(400);
+			  BUZ_DisableBuzzer();
+		     if(ACmotor ==0){
+		       //交流流风机
+		      //  AC_P15=1; //Turn On ---AC POWER ON
+				//AC_P14=1; //red line
+			   // AC_P04=0; //black line 低速 中速档位
+		       // AC_P13 = 1;//0--中风  1-小风
+				AC_P15 = 0;
 				AC_P13=0;
 				AC_P04 =0;
 				AC_P13=0;
+			   }
+			 else {
+			     AC_P15 = 1; //风速 中
+				AC_P13=0;
+				AC_P04 =0;
+				AC_P13=0;
+				
+				
 			 }
 	  
 	  }
