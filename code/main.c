@@ -12,15 +12,15 @@
 #define AC_MOTOR_RUN    0
 
 uint32_t Systemclock = 24000000;
-struct _KEY_  hdkey;
+
  extern uint8_t Number;
 
 uint8_t ReceOverflg;
 
 int main(void)
 {		
-   static uint8_t lampflg,dirflg,ud,run=0;
-   static uint16_t count;
+   static uint8_t lampflg,dirflg,ACmotor=0;
+   
    uint8_t order =0;
 	CONT_Motor_Init();
 	HDKEY_Config();
@@ -69,13 +69,26 @@ int main(void)
 				
 				 
 		}
-		if(Number / 3 ==1  && Number !=0 && Number !=1 && Number !=2 && Number !=5)//wind_key 风机按键
-	  {
-	           TimerStart =1;
+	if(Number / 3 ==1  && Number !=0 && Number !=1 && Number !=2 && Number !=5)//wind_key 风机按键
+	 {
+	            ACmotor =ACmotor ^ 0x01;
 		        Number =0;
 		        BUZZER_Config();
 				delay_ms(400);
 				BUZ_DisableBuzzer();
+		     if(ACmotor ==1){
+		      //交流流风机
+		        AC_P15=1; //Turn On ---AC POWER ON
+				AC_P14=1; //red line
+			    AC_P04=0; //black line 低速
+		        AC_P13 = 1;
+			 }
+			 else {
+			    AC_P15 = 0;
+				AC_P13=0;
+				AC_P04 =0;
+				AC_P13=0;
+			 }
 	  
 	  }
 	  if(Number / 5 ==1  && Number !=0 && Number !=1 && Number !=3 && Number !=2) //Timer _key
@@ -89,18 +102,18 @@ int main(void)
 	  }
 	
 	
-	#endif 	
+
 			  
 		  
 	
         
 			 
 		 #if 0
-	   #if AC_MOTOR_RUN
+	   #if AC_MOTOR_RUN  二档风速
 		    	
 			  AC_P15=1; //Turn On ---AC POWER ON
 				AC_P14=1; //red line
-					 AC_P04=0; //black line 
+					 AC_P04=0; //black line 低速
 		    AC_P13 = 1;
 		   
 		   #endif 
@@ -113,14 +126,14 @@ int main(void)
 			CONMOTOR_1 =0;
 		    CONMOTOR_2 =0; //电机向上移动
 			LAMP = 0;
-			
+			//三档风速
 			AC_P15 =0; //AC Power OF
-					AC_P14=0; //红色线 
+					AC_P14=0; //红色线 红色是高速
 						AC_P04 = 1; //黑色线   //红色和黑色限不能同时 道通
 			AC_P13 =0;
 		   #endif
 
-		  #endif 
+		
 		
 			
 	}

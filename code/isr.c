@@ -217,7 +217,7 @@ void P1EI_IRQHandler(void)  interrupt P1EI_VECTOR
  ******************************************************************************/
 void P2EI_IRQHandler(void)  interrupt P2EI_VECTOR 
 {
-     static uint8_t intter ;
+     
 	if(GPIO_GetIntFlag(GPIO2, GPIO_PIN_6))
 	{
 	   LAMP =1;
