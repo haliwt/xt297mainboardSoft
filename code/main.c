@@ -115,7 +115,7 @@ int main(void)
 	  
 	   
 	}
-	if(windTurnOn ==1){
+	if(windTurnOn ==1 && Number > 4){
 			count ++ ;
 			if(count > 10000){
 				count =0;
