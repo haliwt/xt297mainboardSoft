@@ -57,7 +57,7 @@ int main(void)
 		   }
 		 
 	      }
-	   if(Number == 1 && Number !=0 && Number !=2 && Number !=3 && Number !=4){  
+	   else if(Number == 1 && Number !=0 && Number !=2 && Number !=3 && Number !=4){  
 		    
 		    Number =0;
 		
@@ -78,7 +78,7 @@ int main(void)
 	          }
 		}	
 	//Wind KEY
-	if(Number ==3   && Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
+	else if(Number ==3   && Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
 	 {
 	            ACmotor =ACmotor ^ 0x01;
 		        Number =0;
@@ -103,14 +103,13 @@ int main(void)
 			 }
 	  
 	  }
-	  if(Number ==4   && Number !=0 && Number !=1 && Number !=3 && Number !=2) //Timer _key
+	  else if(Number ==4   && Number !=0 && Number !=1 && Number !=3 && Number !=2) //Timer _key
 	  {
 	        lampOn =1;
 		    Number =0;
-		
-		       BUZZER_Config();
-				delay_ms(200);
-				BUZ_DisableBuzzer();
+		   BUZZER_Config();
+		   delay_ms(200);
+			BUZ_DisableBuzzer();
 	}
 	
 	  
