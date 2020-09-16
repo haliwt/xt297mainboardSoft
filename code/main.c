@@ -81,26 +81,43 @@ int main(void)
 	else if((Number ==3 ||Number > 4  )&& Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
 	 {
 	            ACmotor =ACmotor ^ 0x01;
-		      //  Number =0;
+		        Number =0;
 		        BUZZER_Config();
 				delay_ms(100);
 				BUZ_DisableBuzzer();
 			
 
-		     if(ACmotor ==1 && Number ==3){
+		     if(ACmotor ==1){
 		      //交流流风机
-				windTurnOn =1;
-				Number = 10;
+				windTurnOn =0;
+		        AC_P15=1; //Turn On ---AC POWER ON
+				AC_P14=1; //red line
+			    AC_P04=0; //black line 低速
+		        AC_P13 = 1;
 			 }
-			 else if(Number ==3){
-                 windTurnOn =0;
-				 Number =0;
-			     AC_Relay_Init();
-				
+			 else {
+                 windTurnOn =1;
+			    AC_P15 = 0;
+				AC_P13=0;
+				AC_P04 =0;
+				AC_P13=0;
 			 }
 			if(windTurnOn ==1 && Number > 4){
 			
-				if(Number == 6 || Number ==5){//风速二档
+				/**wind level setup*/
+				if(Number == 5 && Number !=6){ //风速一档
+					Number =0;
+					BUZZER_Config();
+					delay_ms(200);
+					BUZ_DisableBuzzer();
+				
+					AC_P15=1; //Turn On ---AC POWER ON
+					AC_P14=1; //red line
+					AC_P04=0; //black line 低速 中速档位
+					AC_P13 = 1;//0--中风  1-小风
+				
+				}
+				if(Number == 6 && Number !=5){//风速二档
 					Number=0;
 					BUZZER_Config();
 					delay_ms(200);
@@ -109,10 +126,12 @@ int main(void)
 
 					AC_P15 =0; //AC Power On
 					AC_P14=0; //红色线 红色是高速
-						AC_P04 = 1; //黑色线   //红色和黑色限不能同时 道通
+						AC_P04 = 0; //黑色线   //红色和黑色限不能同时 道通
 					AC_P13 =1;
+					
+
 				}
-				if(Number >=56){//风速三档
+				if(Number >=56 ){//风速三档
 					Number =0;
 					AC_P15 =0; //AC Power On
 						AC_P14=0; //红色线 红色是高速
@@ -120,15 +139,8 @@ int main(void)
 					AC_P13 =0;
 					
 				}
-			    if(Number = 10) { //风速一档
-					Number =0;
-					AC_P15=1; //Turn On ---AC POWER ON
-					AC_P14=1; //red line
-					AC_P04=0; //black line 低速 中速档位
-					AC_P13 = 1;//0--中风  1-小风
-				
-				}
-			
+				if(Number == 3)windTurnOn =0;
+				Number =0;
 			}
 			else Number =0;
 	  }	
