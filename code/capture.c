@@ -18,8 +18,8 @@ void TMR2_Config(void)
 	/*
 	(3)??Timer??
 	*/	
-	//TMR2_ConfigTimerPeriod((65536 - 20000)); 			//10ms
-	 TMR2_ConfigTimerPeriod((65536 - 40000)); 			//20ms	
+	TMR2_ConfigTimerPeriod((65536 - 20000)); 			//10ms
+	// TMR2_ConfigTimerPeriod((65536 - 40000)); 			//20ms	
 	/*
 	(5)????
 	*/

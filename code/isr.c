@@ -15,6 +15,7 @@ uint8_t TimerStart;
  uint8_t Order;
  uint8_t exeOrder;
   uint8_t Number;
+  uint8_t WindLevel;
 /******************************************************************************
  ** \brief	 INT0 interrupt service function
  **			
@@ -35,18 +36,7 @@ void INT0_IRQHandler(void)  interrupt INT0_VECTOR
 ******************************************************************************/
 void Timer0_IRQHandler(void)  interrupt TMR0_VECTOR 
 {
-    // Number++;
-	 if(Number ==1) {
-	       if(TimerStart==1)exeOrder =0;
-		   else exeOrder =1;
-	 }
-	 if(TimerStart == 20) {//2ms 
-		 TimerStart =0;
-		 
-		
-		 
-		}
-		 
+   
 }
 
 /******************************************************************************
@@ -82,52 +72,7 @@ void UART0_IRQHandler(void)  interrupt UART0_VECTOR
 {
 	
 	
-		#if 0
-//	static uint8_t  vair=0;
- 
 
-    if(UART_GetSendIntFlag(UART0))
-	{
-		UART_ClearSendIntFlag(UART0);	
-	}
-	if(UART_GetReceiveIntFlag(UART0))
-	{   
-        UART_ClearReceiveIntFlag(UART0);
-      //  UART_SendBuff(UART0,UART_GetBuff(UART0));
-         if (cntRxd < 4){
-             if(cntRxd ==0){ bufRxd[0] = UART_GetBuff(UART0);
-			     if(bufRxd[0]== 0xAA){
-					 cntRxd++;
-				 }
-				 else cntRxd =0;
-             }
-			 else {
-                 bufRxd[cntRxd] = UART_GetBuff(UART0);
-                 cntRxd ++;
-				if( bufRxd[3]= BCC()){
-				  ReceOverflg = 1;
-				}
-				   
-             }
-			if(cntRxd ==4)cntRxd=0;
-			
-        }
-		
-		
-		if(ReceOverflg ==1)
-		{
-		   ReceOverflg =0;
-		  
-			  usartdat.usart_1 = bufRxd[1] ;
-			//  usartdat.usart_2 = bufRxd[2] ;
-				
-              
-				UART_SendBuff(UART0,usartdat.usart_1);
-				//UART_SendBuff(UART0,usartdat.usart_2);
-			
-			}
-	}
-       #endif 
 }
     
 
@@ -140,40 +85,23 @@ void UART0_IRQHandler(void)  interrupt UART0_VECTOR
 ******************************************************************************/
 void Timer2_IRQHandler(void)  interrupt TMR2_VECTOR 
 {
+	
+	uint8_t tempvalue=0;
 	if(TMR2_GetOverflowIntFlag())
 	{
 
-		//TMR2_ConfigTimerPeriod((65536 - 20000)); 			//10ms
-        TMR2_ConfigTimerPeriod((65536 - 40000)); 			//20ms
+		TMR2_ConfigTimerPeriod((65536 - 20000)); 			//10ms
+      //  TMR2_ConfigTimerPeriod((65536 - 40000)); 			//20ms
 		TMR2_ClearOverflowIntFlag();
 	}	
 	if(TMR2_GetCaptureIntFlag(TMR2_CC0))
 	{
 		Number++;
+		WindLevel++ ;
 		
-	//	if(Number == 2){exeOrder =2;Number =0;TimerStart=0;}
-	//	if(Number ==3) {exeOrder =3;Number =0;TimerStart=0;}
-	//	 if(Number ==5){ exeOrder =5;Number=0;TimerStart=0;}
-	//	 if(Number ==1){
-	//		exeOrder = 1;
-	//		Number=0;
-	//		TimerStart=0;
-	//	 }
-        TMR2_ClearCaptureIntFlag(TMR2_CC0);
+		TMR2_ClearCaptureIntFlag(TMR2_CC0);
 	}	
-	if(TMR2_GetCaptureIntFlag(TMR2_CC1))
-	{
-		TMR2_ClearCaptureIntFlag(TMR2_CC1);
-	}	
-	if(TMR2_GetCaptureIntFlag(TMR2_CC2))
-	{
-		TMR2_ClearCaptureIntFlag(TMR2_CC2);
-	}	
-	if(TMR2_GetCaptureIntFlag(TMR2_CC3))
-	{
-		
-        TMR2_ClearCaptureIntFlag(TMR2_CC3);
-	}	
+	
 }
 /******************************************************************************
  ** \brief	 UART 1 interrupt service function
@@ -220,7 +148,7 @@ void P2EI_IRQHandler(void)  interrupt P2EI_VECTOR
      
 	if(GPIO_GetIntFlag(GPIO2, GPIO_PIN_6))
 	{
-	   LAMP =1;
+	  
 		
 		GPIO_ClearIntFlag(GPIO2, GPIO_PIN_6);
 	}

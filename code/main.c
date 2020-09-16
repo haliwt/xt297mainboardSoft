@@ -17,11 +17,12 @@ uint32_t Systemclock = 24000000;
 
 uint8_t ReceOverflg;
 uint8_t windTurnOn ;
+extern uint8_t WindLevel;
 
 int main(void)
 {		
    static uint8_t lampflg,dirflg,ACmotor=0,lampOn=0;
-   static uint16_t count,timecount=0 ;
+ 
    uint8_t event =0;
 	CONT_Motor_Init();
 	HDKEY_Config();
@@ -34,8 +35,7 @@ int main(void)
 
 	while(1)
 	{	
-          
-	//if(Number < 5){	  
+            
 	
 	if(Number ==2 && Number !=0 && Number !=1 && Number !=3 && Number !=4) {
 			  
@@ -78,57 +78,26 @@ int main(void)
 	          }
 		}	
 	//Wind KEY
-	else if((Number ==3 ||Number > 4  )&& Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
+	else if((Number ==3 )&& Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
 	 {
-	            ACmotor =ACmotor ^ 0x01;
-		     //   Number =0;
-		        BUZZER_Config();
-				delay_ms(100);
-				BUZ_DisableBuzzer();
+	           
+		 
+					BUZZER_Config();
+					delay_ms(200);
+					BUZ_DisableBuzzer();
+			   
 			
-
-		     if(ACmotor ==1 && Number ==3){
+			  ACmotor =ACmotor ^ 0x01;
+		     if(ACmotor ==1 ){
 		      //交流流风机
 				windTurnOn =1;
-				Number =10;
-		       
 			 }
-			 else if(Number ==3) {
+			 else {
                  windTurnOn =0;
 			      AC_Relay_Init();
-				  Number =0;
+				
 			 }
-			if(windTurnOn ==1 && Number > 4){
 			
-				/**wind level setup*/
-				if(Number == 10){ //风速一档
-					Number =0;
-				
-					AC_P15=1; //Turn On ---AC POWER ON
-					AC_P14=1; //red line
-					AC_P04=0; //black line 低速 中速档位
-					AC_P13 = 1;//0--中风  1-小风
-				
-				}
-				if(Number == 6 || Number ==5){//风速二档
-					Number=0;
-					AC_P15 =0; //AC Power On
-					AC_P14=0; //红色线 红色是高速
-						AC_P04 = 0; //黑色线   //红色和黑色限不能同时 道通
-					AC_P13 =1;
-					
-
-				}
-				if(Number >=56 ){//风速三档
-					Number =0;
-					AC_P15 =0; //AC Power On
-						AC_P14=0; //红色线 红色是高速
-							AC_P04 = 1; //黑色线   //红色和黑色限不能同时 道通
-					AC_P13 =0;
-					
-				}
-			
-			}
 			
 	  }	
 	  else if(Number ==4   && Number !=0 && Number !=1 && Number !=3 && Number !=2) //Timer _key
@@ -138,8 +107,40 @@ int main(void)
 		   BUZZER_Config();
 		   delay_ms(200);
 			BUZ_DisableBuzzer();
+			
 	}
-	
+	if(windTurnOn ==1 && WindLevel > 4){
+			
+				
+				/**wind level setup*/
+				if(WindLevel ==7 || WindLevel ==5 ||WindLevel ==6){ //风速一档
+					WindLevel =0;
+				
+					AC_P15=1; //Turn On ---AC POWER ON
+					AC_P14=1; //red line
+					AC_P04=0; //black line 低速 中速档位
+					AC_P13 = 1;//0--中风  1-小风
+				
+				}
+				if(WindLevel ==8 || WindLevel ==9 ||WindLevel ==10){//风速二档
+					WindLevel =0;
+					AC_P15 =0; //AC Power On
+					AC_P14=0; //红色线 红色是高速
+						AC_P04 = 0; //黑色线   //红色和黑色限不能同时 道通
+					AC_P13 =1;
+					
+
+				}
+				if(WindLevel >=12 ){//风速三档
+					WindLevel =0;
+				    AC_P15 =0; //AC Power On
+						AC_P14=0; //红色线 红色是高速
+							AC_P04 = 1; //黑色线   //红色和黑色限不能同时 道通
+					AC_P13 =0;
+					
+				}
+			
+			}
 	
 	}  
 }

@@ -57,9 +57,3 @@ void HDKEY_Config(void)
 
 }
 
-uint8_t KEY_HDScan(void)
-{
-    
-	
-	
-}
