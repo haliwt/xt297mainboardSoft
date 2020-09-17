@@ -14,6 +14,7 @@
 uint32_t Systemclock = 24000000;
 
  extern uint8_t Number;
+static uint8_t windLevel  ;
 
 uint8_t ReceOverflg;
 uint8_t windTurnOn ;
@@ -78,60 +79,53 @@ int main(void)
 	          }
 		}	
 	//Wind KEY
-	else if((Number ==3 ||Number > 4  )&& Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
+	else if((Number ==3 )&& Number !=0 && Number !=1 && Number !=2 && Number !=4)//wind_key 风机按键
 	 {
-	            ACmotor =ACmotor ^ 0x01;
-		     //   Number =0;
-		        BUZZER_Config();
-				delay_ms(100);
-				BUZ_DisableBuzzer();
-			
-
-		     if(ACmotor ==1 && Number ==3){
-		      //交流流风机
-				windTurnOn =1;
-				Number =10;
-		       
-			 }
-			 else if(Number ==3) {
-                 windTurnOn =0;
-			      AC_Relay_Init();
-				  Number =0;
-			 }
-			if(windTurnOn ==1 && Number > 4){
-			
-				/**wind level setup*/
-				if(Number == 10){ //风速一档
-					Number =0;
-				
-					AC_P15=1; //Turn On ---AC POWER ON
+	        Number =0;
+			   windLevel ++ ;
+					BUZZER_Config();
+					delay_ms(200);
+					BUZ_DisableBuzzer();
+			   switch (windLevel)
+			   {
+			   case  1:
+				     AC_P15=1; //Turn On ---AC POWER ON
 					AC_P14=1; //red line
 					AC_P04=0; //black line 低速 中速档位
 					AC_P13 = 1;//0--中风  1-小风
-				
-				}
-				if(Number == 6 || Number ==5){//风速二档
-					Number=0;
-					AC_P15 =0; //AC Power On
-					AC_P14=0; //红色线 红色是高速
-						AC_P04 = 0; //黑色线   //红色和黑色限不能同时 道通
-					AC_P13 =1;
-					
+				   break;
 
-				}
-				if(Number >=56 ){//风速三档
-					Number =0;
-					AC_P15 =0; //AC Power On
+			   case 2: 
+			        AC_P15 =0; //AC Power On
+					AC_P14=0; //红色线 红色是高速
+						AC_P04 = 1; //黑色线   //红色和黑色限不能同时 道通
+					AC_P13 =1;
+
+			       break;
+
+			   case 3:
+
+			   			AC_P15 =0; //AC Power On
 						AC_P14=0; //红色线 红色是高速
 							AC_P04 = 1; //黑色线   //红色和黑色限不能同时 道通
 					AC_P13 =0;
-					
-				}
+
+			      break;
+				case 4 :
+				     windLevel =0 ;
+
+					 AC_Relay_Init();
+
+
+				  break;
+			   
+			   default:
+				   break;
+			   }   
 			
-			}
 			
 	  }	
-	  else if(Number ==4   && Number !=0 && Number !=1 && Number !=3 && Number !=2) //Timer _key
+	  else if(Number ==5   && Number !=0 && Number !=1 && Number !=3 && Number !=2) //Timer _key
 	  {
 	        lampOn =1;
 		    Number =0;
